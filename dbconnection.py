@@ -4,8 +4,8 @@ import mysql.connector
 def get_connection():
     cnx = mysql.connector.connect(
         host="localhost",
-        user="root",
-        password="annie",  
-        database="workshop1"
+        user="root", #Change this to your username
+        password="annie",  #Change this to your password
+        database="workshop1" 
     )
     return cnx

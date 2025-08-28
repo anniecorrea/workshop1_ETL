@@ -98,16 +98,4 @@ Jupyter Notebook → queries and KPI visualizations.
 
 Power BI (optional) → for interactive dashboards.
 
-📁 workshop1_ETL
-│── 📄 candidates.csv                 # Original dataset
-│── 📄 dim_candidate.csv              # Transformed dimensions
-│── 📄 dim_date.csv
-│── 📄 dim_seniority.csv
-│── 📄 dim_technology.csv
-│── 📄 dim_country.csv
-│── 📄 fact_applications.csv
-│── 📄 dbconnection.py                # MySQL connection script
-│── 📄 etl_process.ipynb              # Extraction, transformation, loading
-│── 📄 visualizaciones.ipynb          # KPI queries and visualizations
-│── 📄 README.md                      # Project documentation
 

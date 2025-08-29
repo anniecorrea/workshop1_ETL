@@ -22,7 +22,8 @@ Technology
 Code Challenge Score, Technical Interview Score
 
 
-Taking into account that a candidate is considered HIRED if both scores are ≥ 7, in ext_tran.ypynb 
+Taking into account that a candidate is considered HIRED if both scores are ≥ 7, in ext_tran.ypynb, we define a function to determine if a candidate is hired based on their scores
+and create a new column "Hired" in the DataFrame.
 
 2️⃣ Transformation
 
@@ -52,7 +53,6 @@ Converting dates to datetime.
 
 Generating surrogate keys (ID) for each dimension.
 
-Normalizing categorical values (Seniority levels, countries, etc.).
 
 3️⃣ Loading
 
@@ -96,6 +96,5 @@ MySQL Workbench → schema design, data loading, queries.
 
 Jupyter Notebook → queries and KPI visualizations.
 
-Power BI (optional) → for interactive dashboards.
 
 

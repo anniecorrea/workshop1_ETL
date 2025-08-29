@@ -1,100 +1,55 @@
 # workshop1_ETL
-This workshop simulates a real job interview code challenge.
 
-⚙️ Project Workflow
+This project demonstrates the design and implementation of a Data Warehouse (DW) for analyzing candidate hiring data.
+It covers the ETL (Extract, Transform, Load) pipeline, dimensional modeling with a Star Schema, loading data into MySQL, and generating KPI reports with Python visualizations.
 
-1️⃣ we started Extracting the data from candidates.csv 
-
-Data source: CSV file containing candidate applications.
-
-Original fields:
-
-First Name, Last Name, Email, Country
-
-Application Date
-
-YOE (Years of Experience)
-
-Seniority
-
-Technology
-
-Code Challenge Score, Technical Interview Score
+The DW allows HR and Recruitment teams to evaluate performance across technologies, seniority levels, countries, and experience ranges, improving decision-making.
 
 
-Taking into account that a candidate is considered HIRED if both scores are ≥ 7, in ext_tran.ypynb, we define a function to determine if a candidate is hired based on their scores
-and create a new column "Hired" in the DataFrame.
+# 1. Extraction (E)
 
-2️⃣ Transformation
+Source: candidates.csv dataset.
 
-Creation of dimensions and fact table following a Star Schema:
+Contains applicant-level data:
 
-🔹 Dimensions
+Personal data: First Name, Last Name, Email, Country
 
-DimCandidate: personal information of candidates.
+Application details: Application Date, Years of Experience (YOE), Seniority, Technology
 
-DimDate: application date (day, month, year).
+Scores: Code Challenge Score, Technical Interview Score
 
-DimSeniority: seniority levels (Intern, Junior, Mid-Level, Senior, etc.).
+Hiring outcome: Hired (0/1 flag)
 
-DimTechnology: technologies under evaluation.
+# 2. Transformation (T)
 
-DimCountry: countries of applicants.
+Performed in etl_process.ipynb using Python (pandas):
 
-🔹 Fact Table
+Converted Application Date into datetime format.
 
-FactApplications: contains quantitative measures (scores, hires) and foreign keys linking to dimensions.
+Generated dimension tables with unique values (drop_duplicates).
 
-Key transformations:
+Assigned surrogate keys (ID) for each dimension.
 
-Removing duplicates in dimensions (drop_duplicates).
+Standardized categorical values (Seniority ordered: Intern → Junior → Mid-Level → Senior → Lead → Architect).
 
-Converting dates to datetime.
+Created FactApplications table with:
 
-Generating surrogate keys (ID) for each dimension.
+Surrogate keys (CandidateID, DateID, TechnologyID, SeniorityID, CountryID).
+
+Measures: Code Challenge Score, Interview Score, Hired.
+
+# 3. Loading (L)
+
+Schema created in MySQL Workbench with primary and foreign keys.
+
+Data loaded into dimensions and fact table using mysql-connector in Python.
+
+Referential integrity enforced with constraints.
+
+# Dimentional Model Schema 
+<img width="985" height="742" alt="image" src="https://github.com/user-attachments/assets/4f556183-b301-4177-9a50-10bb135392ee" />
 
 
-3️⃣ Loading
-
-Table creation in MySQL Workbench.
-
-Data insertion into dimensions and fact table using Python + mysql-connector.
-
-Referential integrity ensured via foreign keys.
-
-📈 KPIs
-
-Hires by Technology → total hires per technology.
-
-Hires by Year → yearly hiring trends.
-
-Hires by Seniority → hires distribution across seniority levels.
-
-Hires by Country over Years → hiring trends per country (focused on USA, Brazil, Colombia, Ecuador).
-
-Average Scores by Seniority → average Code Challenge and Technical Interview scores per seniority.
-
-Hires by Experience Range (YOE) → hires grouped into ranges (0–2, 3–5, 6–10, 11+ years).
-
-📊 Visualizations
-
-The visualizations are included in visualizaciones.ipynb:
-
-Line charts with markers for trends over time.
-
-Horizontal barplots for comparisons across ranges.
-
-Radar charts to compare average scores.
-
-Labels and guide lines were added to improve readability.
-
-🚀 Tools Used
-
-Python → pandas, seaborn, matplotlib, mysql-connector.
-
-MySQL Workbench → schema design, data loading, queries.
-
-Jupyter Notebook → queries and KPI visualizations.
 
 
 

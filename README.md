@@ -1,53 +1,119 @@
 # workshop1_ETL
 
-This project demonstrates the design and implementation of a Data Warehouse (DW) for analyzing candidate hiring data.
+This project implements a complete ETL (Extract, Transform, Load) pipeline to process raw data and generate useful business KPIs.
 It covers the ETL (Extract, Transform, Load) pipeline, dimensional modeling with a Star Schema, loading data into MySQL, and generating KPI reports with Python visualizations.
 
-The DW allows HR and Recruitment teams to evaluate performance across technologies, seniority levels, countries, and experience ranges, improving decision-making.
+
+# The workflow is structured into three main steps:
+
+- Design a Dimensional Data Model (DDM),
+- ETL Process 
+  - Extract: Load the CSV file in Python. 
+  - Transform:
+    - Apply the “HIRED” rule. 
+    - Optional: create tables for dimensions and facts to simplify the Load process. 
+  - Load: Insert the transformed data into a DW.
+- Build queries, KPIs, and visualizations directly from the DW.
+
+## 📂 Project Structure
+```
+📁 workshop1_ETL
+│── 📄 candidates.csv                 # Original dataset
+│── 📄 dim_candidate.csv              # Dimension tables 
+│── 📄 dim_date.csv
+│── 📄 dim_seniority.csv
+│── 📄 dim_technology.csv
+│── 📄 dim_country.csv
+│── 📄 fact_applications.csv          #Fact table 
+│── 📄 dbconnection.py                # MySQL connection 
+│── 📄 ext_tran.ipynb                 # Extract, transform
+│── 📄 Load.ipynb                     # Load
+│── 📄 Kpis.ipynb                     #KPI's and visualizations 
+│── 📄 README.md                      # Documentation
+│── 📄 StarSquema.png                 #Star Schema  DM
+```
+
+# Data Description
+- First name
+- Last name
+- Email
+- Country
+- Application Date
+- YOE (Years of Experience)
+- Seniority
+- Technology
+- Code Challenge Score
+- Technical Interview Score
+
+Note: A candidate is considered HIRED if both scores are ≥ 7. 
 
 
-# 1. Extraction (E)
+# Installation & Execution
+Clone the repository
+```
+git clone https://github.com/anniecorrea/workshop1_ETL.git
+```
 
-Source: candidates.csv dataset.
+# Dimentional Model (Star Schema)
+<img width="985" height="742" alt="image" src="https://github.com/user-attachments/assets/4f556183-b301-4177-9a50-10bb135392ee" />
 
-Contains applicant-level data:
+# 1. Extraction 
+```
+data = pd.read_csv("candidates.csv", sep=";")
+```
 
-Personal data: First Name, Last Name, Email, Country
-
-Application details: Application Date, Years of Experience (YOE), Seniority, Technology
-
-Scores: Code Challenge Score, Technical Interview Score
-
-Hiring outcome: Hired (0/1 flag)
 
 # 2. Transformation (T)
+Creation of dimensions and fact table following the Star Schema
+- Dimensions
+  - dim_candidate
+  - dim_country
+  - dim_date
+  - dim_seniority
+  - dim_technology
+- Fact Table
+  - Fact_applications
+  
+Also, in this step, i defined a function to determine if a candidate is hired based on their scores and create a new column "Hired". 
 
-Performed in etl_process.ipynb using Python (pandas):
-
-Converted Application Date into datetime format.
-
-Generated dimension tables with unique values (drop_duplicates).
-
-Assigned surrogate keys (ID) for each dimension.
-
-Standardized categorical values (Seniority ordered: Intern → Junior → Mid-Level → Senior → Lead → Architect).
-
-Created FactApplications table with:
-
-Surrogate keys (CandidateID, DateID, TechnologyID, SeniorityID, CountryID).
-
-Measures: Code Challenge Score, Interview Score, Hired.
+  
 
 # 3. Loading (L)
 
-Schema created in MySQL Workbench with primary and foreign keys.
+## Configure MySQL connection in dbconnection.py:
+```
+import mysql.connector
 
-Data loaded into dimensions and fact table using mysql-connector in Python.
+def get_connection():
+    cnx = mysql.connector.connect(
+        host="localhost",
+        user="", #Change this to your username
+        password="",  #Change this to your password
+        database="workshop1" 
+    )
+    return cnx
+```
 
-Referential integrity enforced with constraints.
+- Table creation in MySQL Workbench.
+- Data insertion into dimensions and fact table using Python + mysql-connector.
+- Referential integrity ensured via foreign keys.
 
-# Dimentional Model Schema 
-<img width="985" height="742" alt="image" src="https://github.com/user-attachments/assets/4f556183-b301-4177-9a50-10bb135392ee" />
+# 4. KPI's and Visualizations 
+1. Hires by Technology → total hires per technology.
+2. Hires by Year → yearly hiring trends.
+3. Hires by Seniority → hires distribution across seniority levels.
+4. Hires by Country over Years → hiring trends per country (focused on USA, Brazil, Colombia, Ecuador).
+5. Average Scores by Seniority → average Code Challenge and Technical Interview scores per seniority.
+6. Hires by Experience Range (YOE) → hires grouped into ranges (0–2, 3–5, 6–10, 11+ years).
+
+# Tools Used
+
+- Python → pandas, seaborn, matplotlib, mysql-connector.
+- dbdiagram.io → schema design
+- MySQL Workbench → data loading, queries.
+- Jupyter Notebook 
+
+
 
 
 

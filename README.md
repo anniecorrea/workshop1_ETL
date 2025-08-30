@@ -4,7 +4,7 @@ This project implements a complete ETL (Extract, Transform, Load) pipeline to pr
 It covers the ETL (Extract, Transform, Load) pipeline, dimensional modeling with a Star Schema, loading data into MySQL, and generating KPI reports with Python visualizations.
 
 
-# The workflow is structured into three main steps:
+# The workflow is structured into some main steps:
 
 - Design a Dimensional Data Model (DDM),
 - ETL Process 
@@ -98,7 +98,7 @@ def get_connection():
 - Data insertion into dimensions and fact table using Python + mysql-connector.
 - Referential integrity ensured via foreign keys.
 
-# 4. KPI's and Visualizations 
+ # 4. KPI's and Visualizations 
 1. Hires by Technology → total hires per technology.
 2. Hires by Year → yearly hiring trends.
 3. Hires by Seniority → hires distribution across seniority levels.
